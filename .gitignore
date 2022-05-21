@@ -1,3 +1,3 @@
 # ignore all files without extension by ignoring all files and then allowing all files matching pattern *.*
-*
-!*.*
+**/*
+!**/*.*
