@@ -1,9 +1,9 @@
 use std::fs::File;
 use std::io::ErrorKind;
 use std::io::{self, Read};
+use std::net::IpAddr;
 
 fn read_username_from_file() -> Result<String, io::Error> {
-
     let username_file_result = File::open("hello.txt");
 
     let mut username_file = match username_file_result {
@@ -26,9 +26,19 @@ fn read_username_from_file_concise() -> Result<String, io::Error> {
     Ok(username)
 }
 
+fn read_username_most_concise() -> Result<String, io::Error> {
+    let mut username = String::new();
 
+    File::open("hello.txt")?.read_to_string(&mut username)?;
 
-fn main() {
+    Ok(username)
+}
+
+fn last_char_of_the_first_line(text: &str) -> Option<char> {
+    text.lines().next()?.chars().last()
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let greeting_file_result = File::open("hello.txt");
 
     let greeting_file = match greeting_file_result {
@@ -59,6 +69,10 @@ fn main() {
     println!("{:?}", username);
     let username = read_username_from_file_concise().unwrap();
     println!("{:?}", username);
-
-
+    let username = read_username_most_concise().unwrap();
+    println!("{:?}", username);
+    let home: IpAddr = "127.0.0.1"
+        .parse()
+        .expect("Hardcoded IP addresses should be valid");
+    Ok(())
 }
